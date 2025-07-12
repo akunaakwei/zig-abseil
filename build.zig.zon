@@ -1,0 +1,17 @@
+.{
+    .name = .abseil,
+    .version = "0.0.0",
+    .fingerprint = 0x5635a2557860b121, // Changing this has security and trust implications.
+    .dependencies = .{
+        .abseil = .{
+            .url = "https://github.com/abseil/abseil-cpp/archive/refs/tags/20250512.1.tar.gz",
+            .hash = "N-V-__8AAPVZnwDbTjOwxj7Svc8jGQDVnvG3Qz1XJ-L4fuL2",
+        },
+    },
+
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "LICENSE",
+    },
+}
