@@ -4,14 +4,19 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const linkage = b.option(std.builtin.LinkMode, "linkage", "Linkage type for the library") orelse .static;
+
     const abseil_dep = b.dependency("abseil", .{});
 
     const flags = .{""};
 
-    const abseil = b.addStaticLibrary(.{
+    const abseil = b.addLibrary(.{
         .name = "abseil",
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
+        .linkage = linkage,
     });
     abseil.linkLibCpp();
     if (target.result.os.tag == .windows) {
