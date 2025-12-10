@@ -1,2 +1,2 @@
 # abseil
-This is abseil packaged for the Zig build system.
+This is abseil packaged for the zig build system.
