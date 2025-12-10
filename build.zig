@@ -15,12 +15,13 @@ pub fn build(b: *std.Build) void {
         .root_module = b.createModule(.{
             .target = target,
             .optimize = optimize,
+            .link_libcpp = true,
         }),
         .linkage = linkage,
     });
-    abseil.linkLibCpp();
     if (target.result.os.tag == .windows) {
         abseil.linkSystemLibrary("dbghelp");
+        abseil.linkSystemLibrary("bcrypt");
     }
     abseil.addIncludePath(abseil_dep.path("."));
     abseil.addCSourceFiles(.{
@@ -56,7 +57,6 @@ pub fn build(b: *std.Build) void {
         .root = abseil_dep.path("absl/hash"),
         .files = &.{
             "internal/hash.cc",
-            "internal/low_level_hash.cc",
             "internal/city.cc",
         },
         .flags = &flags,
@@ -112,6 +112,13 @@ pub fn build(b: *std.Build) void {
         .root = abseil_dep.path("absl/crc"),
         .files = &.{
             "crc32c.cc",
+            "internal/cpu_detect.cc",
+            "internal/crc.cc",
+            "internal/crc_cord_state.cc",
+            "internal/crc_memcpy_fallback.cc",
+            "internal/crc_memcpy_x86_arm_combined.cc",
+            "internal/crc_non_temporal_memcpy.cc",
+            "internal/crc_x86_arm_combined.cc",
         },
         .flags = &flags,
     });
@@ -196,6 +203,8 @@ pub fn build(b: *std.Build) void {
             "internal/randen_detect.cc",
             "internal/randen_hwaes.cc",
             "internal/chi_square.cc",
+            "internal/gaussian_distribution_gentables.cc",
+            "internal/distribution_test_util.cc",
         },
         .flags = &flags,
     });
