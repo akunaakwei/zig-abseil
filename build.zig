@@ -132,7 +132,6 @@ const numeric_sources = .{
 };
 
 const strings_sources = .{
-    "string_view.cc",
     "ascii.cc",
     "charconv.cc",
     "escaping.cc",
@@ -196,6 +195,7 @@ const debugging_sources = .{
     "internal/utf8_for_code_point.cc",
     "leak_check.cc",
     "internal/stack_consumption.cc",
+    "internal/borrowed_fixup_buffer.cc",
 };
 
 const flags_sources = .{
@@ -293,4 +293,5 @@ const time_sources = .{
     "internal/cctz/src/time_zone_lookup.cc",
     "internal/cctz/src/time_zone_posix.cc",
     "internal/cctz/src/zone_info_source.cc",
+    "internal/cctz/src/time_zone_name_win.cc",
 };

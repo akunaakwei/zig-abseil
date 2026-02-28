@@ -4,8 +4,8 @@
     .fingerprint = 0x5635a2557860b121, // Changing this has security and trust implications.
     .dependencies = .{
         .abseil = .{
-            .url = "https://github.com/abseil/abseil-cpp/archive/refs/tags/20250814.1.tar.gz",
-            .hash = "N-V-__8AAB93oAAhnlSUqVkNHA2gdowdBZ0UVZ9rNp_RVkT0",
+            .url = "https://github.com/abseil/abseil-cpp/archive/refs/tags/20260107.1.tar.gz",
+            .hash = "N-V-__8AAHvBpQC2PgAgIxqg7-WRzv6zAW3ItECY_C63R_Nn",
         },
     },
 
