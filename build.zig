@@ -10,91 +10,92 @@ pub fn build(b: *std.Build) void {
 
     const flags = .{""};
 
-    const abseil = b.addLibrary(.{
-        .name = "abseil",
-        .root_module = b.createModule(.{
-            .target = target,
-            .optimize = optimize,
-            .link_libcpp = true,
-        }),
-        .linkage = linkage,
+    const abseil_mod = b.createModule(.{
+        .target = target,
+        .optimize = optimize,
+        .link_libcpp = true,
     });
     if (target.result.os.tag == .windows) {
-        abseil.linkSystemLibrary("dbghelp");
-        abseil.linkSystemLibrary("bcrypt");
+        abseil_mod.linkSystemLibrary("dbghelp", .{});
+        abseil_mod.linkSystemLibrary("bcrypt", .{});
     }
-    abseil.addIncludePath(abseil_dep.path("."));
-    abseil.addCSourceFiles(.{
+    abseil_mod.addIncludePath(abseil_dep.path("."));
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/base"),
         .files = &base_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/container"),
         .files = &container_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/hash"),
         .files = &hash_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/numeric"),
         .files = &numeric_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/strings"),
         .files = &strings_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/crc"),
         .files = &crc_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/debugging"),
         .files = &debugging_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/flags"),
         .files = &flags_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/log"),
         .files = &log_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/profiling"),
         .files = &profiling_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/random"),
         .files = &random_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/status"),
         .files = &status_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/synchronization"),
         .files = &synchronization_sources,
         .flags = &flags,
     });
-    abseil.addCSourceFiles(.{
+    abseil_mod.addCSourceFiles(.{
         .root = abseil_dep.path("absl/time"),
         .files = &time_sources,
         .flags = &flags,
     });
 
+    const abseil = b.addLibrary(.{
+        .name = "abseil",
+        .root_module = abseil_mod,
+        .linkage = linkage,
+    });
     abseil.installHeadersDirectory(abseil_dep.path("absl"), "absl", .{ .include_extensions = &.{ "h", "inc" } });
     b.installArtifact(abseil);
 }
