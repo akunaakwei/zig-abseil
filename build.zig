@@ -5,6 +5,7 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     const linkage = b.option(std.builtin.LinkMode, "linkage", "Linkage type for the library") orelse .static;
+    const pic = b.option(bool, "pic", "Enable PIC") orelse (if (linkage == .dynamic) true else null);
 
     const abseil_dep = b.dependency("abseil", .{});
 
@@ -14,6 +15,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
         .link_libcpp = true,
+        .pic = pic,
     });
     if (target.result.os.tag == .windows) {
         abseil_mod.linkSystemLibrary("dbghelp", .{});
