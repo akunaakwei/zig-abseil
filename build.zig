@@ -90,6 +90,15 @@ pub fn build(b: *std.Build) void {
         .files = &time_sources,
         .flags = &flags,
     });
+    if (target.result.os.tag == .windows) {
+        abseil_mod.addCSourceFiles(.{
+            .root = abseil_dep.path("absl/time"),
+            .files = &.{
+                "internal/cctz/src/time_zone_name_win.cc",
+            },
+            .flags = &flags,
+        });
+    }
 
     const abseil = b.addLibrary(.{
         .name = "abseil",
@@ -294,5 +303,4 @@ const time_sources = .{
     "internal/cctz/src/time_zone_lookup.cc",
     "internal/cctz/src/time_zone_posix.cc",
     "internal/cctz/src/zone_info_source.cc",
-    "internal/cctz/src/time_zone_name_win.cc",
 };
